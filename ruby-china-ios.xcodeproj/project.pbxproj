@@ -592,7 +592,7 @@
 				INFOPLIST_FILE = "ruby-china-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.ruby-china.app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.testerhome.app;
 				PRODUCT_NAME = "Ruby China";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -611,7 +611,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ruby-china-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.ruby-china.app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.testerhome.app;
 				PRODUCT_NAME = "Ruby China";
 				SWIFT_VERSION = 3.0;
 			};
@@ -627,7 +627,7 @@
 				9670F19D1D4235D200128F8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		9670F19E1D4235D200128F8A /* Build configuration list for PBXNativeTarget "ruby-china-ios" */ = {
 			isa = XCConfigurationList;
@@ -636,7 +636,7 @@
 				9670F1A01D4235D200128F8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
