@@ -92,7 +92,7 @@ extension SignInViewController {
     
     fileprivate func setupViews() {
         appNameLabel = UILabel()
-        appNameLabel.text = "Ruby China"
+        appNameLabel.text = "TesterHome"
         appNameLabel.textColor = PRIMARY_COLOR
         appNameLabel.font = UIFont.boldSystemFont(ofSize: 40)
         appNameLabel.sizeToFit()

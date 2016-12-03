@@ -331,7 +331,7 @@ extension TurbolinksSessionLib: WKUIDelegate {
     }
     
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: "Ruby China", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "TesterHome", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
             completionHandler(true)
         }))

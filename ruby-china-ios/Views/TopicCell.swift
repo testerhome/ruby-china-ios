@@ -41,7 +41,13 @@ class TopicCell: UITableViewCell {
             if let data = data {
                 let avatarSize = CGSize(width: kAvatarSize.width * 2, height: kAvatarSize.height * 2)
                 let imageProcessor = RoundCornerImageProcessor(cornerRadius: avatarSize.width / 2.0, targetSize: avatarSize)
-                avatarImageView.kf.setImage(with: data.user.avatarUrl, options: [
+                var avatarUrlString = "\(data.user.avatarUrl)"
+              if avatarUrlString.hasPrefix("http") {
+                //do nothing
+              } else {
+                avatarUrlString = ROOT_URL + avatarUrlString
+              }
+                avatarImageView.kf.setImage(with: URL(string: avatarUrlString), options: [
                     .processor(imageProcessor),
                     .transition(ImageTransition.fade(0.5))
                 ])
