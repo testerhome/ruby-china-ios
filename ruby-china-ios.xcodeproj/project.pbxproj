@@ -111,7 +111,7 @@
 		27849C620AD961F60F073D43 /* Pods-ruby-china-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ruby-china-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ruby-china-ios/Pods-ruby-china-ios.release.xcconfig"; sourceTree = "<group>"; };
 		3D8873230E620CCF5BBCEE42 /* Pods_ruby_china_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ruby_china_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		961580A61D477A7600B32BDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9670F18C1D4235D200128F8A /* Ruby China.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ruby China.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9670F18C1D4235D200128F8A /* TesterHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TesterHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9670F18F1D4235D200128F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9670F1941D4235D200128F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9670F19B1D4235D200128F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 		9670F18D1D4235D200128F8A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9670F18C1D4235D200128F8A /* Ruby China.app */,
+				9670F18C1D4235D200128F8A /* TesterHome.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -297,7 +297,7 @@
 			);
 			name = "ruby-china-ios";
 			productName = "ruby-china-ios";
-			productReference = 9670F18C1D4235D200128F8A /* Ruby China.app */;
+			productReference = 9670F18C1D4235D200128F8A /* TesterHome.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -593,7 +593,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"DEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.testerhome.app;
-				PRODUCT_NAME = "Ruby China";
+				PRODUCT_NAME = TesterHome;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -612,7 +612,7 @@
 				INFOPLIST_FILE = "ruby-china-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.testerhome.app;
-				PRODUCT_NAME = "Ruby China";
+				PRODUCT_NAME = TesterHome;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
