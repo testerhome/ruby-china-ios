@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.2.0)
+  - Bugly (2.4.6)
   - FontAwesome.swift (1.0.0)
   - Heimdallr (3.5.1):
     - Heimdallr/Core (= 3.5.1)
@@ -19,6 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Bugly
   - FontAwesome.swift
   - Heimdallr (from `https://github.com/marcelofabri/Heimdallr.swift.git`, branch `swift-3.0`)
   - Kingfisher
@@ -61,6 +63,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  Bugly: 7756e72c59387b0d490f46e83ab458ae94ee7fba
   FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
   Heimdallr: 8881bb8ef21dcd347fd1c8b783ae0dafe68a4297
   Kingfisher: 821466474ad7ffc375a4aecadfa05068cfed67b3
@@ -75,6 +78,6 @@ SPEC CHECKSUMS:
   Turbolinks: 1d952338afb5ae2875f55ce0e9122d3a51b0b3c8
   YYKeyboardManager: ff53d2e80d1808567a7f004028bd200d9469a89f
 
-PODFILE CHECKSUM: 69ffeaa7da1ec9db5516c753b9d2a91d4c08506a
+PODFILE CHECKSUM: 306a4db85d06c5d82b0ce66857605d5b978ddccf
 
 COCOAPODS: 1.1.1

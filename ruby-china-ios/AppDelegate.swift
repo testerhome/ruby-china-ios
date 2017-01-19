@@ -23,7 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate var becomeActivePage = String()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // 接入 bugly
+        Bugly.start(withAppId: "1cedca3cc5")
+        
         initAppearance()
+        
         let navigationController = ThemeNavigationController(rootViewController: rootViewController)
         navigationController.view.backgroundColor = UIColor.white
         window?.rootViewController = navigationController
