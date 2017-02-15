@@ -43,7 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController.displayNotifications()
         }
         
-        FIRAppIndexing.sharedInstance().registerApp(1072028763)
+        // 接入 Firebase AppIndex ，暂不使用
+        // FIRAppIndexing.sharedInstance().registerApp(1072028763)
 
         return true
     }

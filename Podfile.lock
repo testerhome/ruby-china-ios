@@ -1,27 +1,21 @@
 PODS:
   - Alamofire (4.3.0)
-  - Firebase/AppIndexing (3.12.0):
+  - Bugly (2.4.6)
+  - Firebase/AppIndexing (3.13.0):
     - Firebase/Core
     - FirebaseAppIndexing (= 1.2.0)
-  - Firebase/Core (3.12.0):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.7)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
+  - Firebase/Core (3.13.0):
+    - FirebaseAnalytics (= 3.7.0)
+    - FirebaseCore (= 3.5.0)
+  - FirebaseAnalytics (3.7.0):
+    - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseAppIndexing (1.2.0)
-  - FirebaseCore (3.4.7):
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+  - FirebaseCore (3.5.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (1.0.8)
+  - FirebaseInstanceID (1.0.9)
   - FontAwesome.swift (1.0.0)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
@@ -29,7 +23,7 @@ PODS:
     - Heimdallr/Core (= 3.5.1)
   - Heimdallr/Core (3.5.1):
     - Result (~> 3.0)
-  - Kingfisher (3.3.4)
+  - Kingfisher (3.4.0)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
   - Result (3.1.0)
@@ -82,17 +76,15 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
   Bugly: 7756e72c59387b0d490f46e83ab458ae94ee7fba
-  Firebase: 8e99eb1ff553ad5bcc6072cc3d925bb89c1244d6
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  Firebase: 5bc34d7b5ff5792e3386c8b28dc6265deeab0da4
+  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
   FirebaseAppIndexing: d0fa52ce0ad13f4b5b2f09e4b47fb0dc2213f4e9
-  FirebaseCore: 46afaf2c2e0419ea7d3acfb08cf26a461a75fe85
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseCore: 1c0a13bf59bb95cdd19577252499f0ec6a03e999
+  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
   FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   Heimdallr: 8881bb8ef21dcd347fd1c8b783ae0dafe68a4297
-  Kingfisher: 35f289f015d26e81ea6c85048718c6205f3933c6
+  Kingfisher: 5690cfb3d1bddf3a98d679a3a34d0b7294974ed2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
@@ -104,6 +96,6 @@ SPEC CHECKSUMS:
   Turbolinks: 1d952338afb5ae2875f55ce0e9122d3a51b0b3c8
   YYKeyboardManager: ff53d2e80d1808567a7f004028bd200d9469a89f
 
-PODFILE CHECKSUM: 306a4db85d06c5d82b0ce66857605d5b978ddccf
+PODFILE CHECKSUM: 048878dfe3ea7fb053e0a8abd5f8df5e2db3354a
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.1.1
