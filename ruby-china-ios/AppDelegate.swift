@@ -3,7 +3,6 @@ import Turbolinks
 import SafariServices
 import WebKit
 import SideMenu
-import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -42,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // 点击推送消息启动的应用
             rootViewController.displayNotifications()
         }
-        
+
         // 接入 Firebase AppIndex ，暂不使用
         // FIRAppIndexing.sharedInstance().registerApp(1072028763)
 
