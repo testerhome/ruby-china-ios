@@ -281,9 +281,15 @@ extension TurbolinksSessionLib: WKNavigationDelegate {
             if (["jpg", "jpeg", "png", "gif"].filter{ ext.hasPrefix($0) }).count > 0 {
                 // 查看图片
                 presentImageBrowserController(url)
-            } else if let host = url.host , host != URL(string: ROOT_URL)!.host! {
-                // 外部网站, open in SafariView
-                safariOpen(url)
+            } else if url.host != URL(string: ROOT_URL)!.host! {
+                // 修复打开微信或邮件链接时，应用闪退的问题(https://github.com/testerhome/ruby-china-ios/issues/10)
+                if url.scheme == "http" || url.scheme == "https" {
+                    // 普通 http 或 https 的外部网站, open in SafariView
+                    safariOpen(url)
+                } else {
+                    // 使用外部应用打开 URL 。只能在真机上测试，模拟器上会没反应
+                    UIApplication.shared.openURL(url)
+                }
             } else if var newURL = URLComponents(url: url, resolvingAgainstBaseURL: false) {
                 newURL.scheme = nil
                 newURL.host = nil
