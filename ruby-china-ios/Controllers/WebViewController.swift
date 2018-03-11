@@ -8,6 +8,7 @@ class WebViewController: VisitableViewController {
             visitableURL = urlWithPath(currentPath)
         }
     }
+    
     fileprivate lazy var router: Router = {
         let router = Router()
         router.bind("/topics") { [weak self] (req) in
@@ -52,7 +53,6 @@ class WebViewController: VisitableViewController {
         }
         router.bind("/wiki/:id") { [weak self] (req) in
             self?.pageTitle = "title wiki details".localized
-            self?.addMoreButton()
         }
         
         router.bind("/search") { [weak self] (req) in
@@ -86,6 +86,8 @@ class WebViewController: VisitableViewController {
         addObserver()
     }
     
+    
+    
     override func visitableDidRender() {
         // 覆盖 visitableDidRender，避免设置 title
         navigationItem.title = pageTitle
@@ -97,13 +99,6 @@ class WebViewController: VisitableViewController {
 
 extension WebViewController {
     
-    func addMoreButton() {
-        var rightBarButtonItems = self.navigationItem.rightBarButtonItems ?? [UIBarButtonItem.fixNavigationSpacer()]
-        let menuButton = UIBarButtonItem.narrowButtonItem(image: UIImage(named: "dropdown"), target: self, action: #selector(moreAction))
-        rightBarButtonItems.append(menuButton)
-        self.navigationItem.rightBarButtonItems = rightBarButtonItems
-    }
-    
     func presentError(_ error: Error) {
         errorView.error = error
         view.addSubview(errorView)
@@ -111,10 +106,15 @@ extension WebViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": errorView]))
     }
     
+    func clearSession() {
+        let js = "document.cookie = '_homeland_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';";
+        visitableView.webView?.evaluateJavaScript(js, completionHandler: nil)
+    }
+    
 }
 
 // MARK: - action
-
+@objc
 extension WebViewController {
     
     func reloadByLoginStatusChanged() {
@@ -141,6 +141,10 @@ extension WebViewController {
         if let url = components.url {
             share(title, url: url)
         }
+    }
+    
+    func backAction() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     func moreAction() {
@@ -185,22 +189,14 @@ extension WebViewController {
     }
     
     fileprivate func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadByLoginStatusChanged), name: NSNotification.Name(NOTICE_SIGNIN_SUCCESS), object: nil)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(NOTICE_SIGNOUT), object: nil, queue: nil) { [weak self] (notification) in
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadByLoginStatusChanged), name: NSNotification.Name.userSignin, object: nil)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.userSignout, object: nil, queue: nil) { [weak self] (notification) in
             guard let `self` = self else {
                 return
             }
             self.clearSession()
             self.reloadByLoginStatusChanged()
         }
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(NOTICE_CLEAR_SESSION), object: nil, queue: nil) { [weak self] (notification) in
-            self?.clearSession()
-        }
-    }
-    
-    fileprivate func clearSession() {
-        let js = "document.cookie = '_homeland_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';";
-        visitableView.webView?.evaluateJavaScript(js, completionHandler: nil)
     }
     
     fileprivate func share(_ textToShare: String, url: URL) {

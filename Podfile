@@ -3,8 +3,8 @@ use_frameworks!
 inhibit_all_warnings!
 target 'ruby-china-ios' do
   pod 'Router', git: 'https://github.com/klaus01/Router.git'
-  pod 'Turbolinks', git: 'https://github.com/turbolinks/turbolinks-ios.git', branch: 'swift-3.0'
-  pod 'Heimdallr', git: 'https://github.com/marcelofabri/Heimdallr.swift.git', branch: 'swift-3.0'
+  pod 'Turbolinks', :git => 'https://github.com/turbolinks/turbolinks-ios.git'
+  pod 'Heimdallr'
   pod 'SideMenu'
   pod 'SwiftyJSON'
   pod 'Alamofire'
@@ -15,6 +15,6 @@ target 'ruby-china-ios' do
   pod 'MBProgressHUD'
   pod 'MJRefresh'
   pod 'YYKeyboardManager'
-
   pod 'Bugly'
+  pod 'AMScrollingNavbar'
 end

@@ -27,29 +27,36 @@ class SideMenuViewController: UITableViewController {
         return router
     }()
     
-    fileprivate var userItems = [ItemData]()
-    fileprivate let userImageColors = [
-        UIColor(red: 94 / 255.0, green: 151 / 255.0, blue: 246 / 255.0, alpha: 1),
-        UIColor(red: 156 / 255.0, green: 204 / 255.0, blue: 101 / 255.0, alpha: 1),
-        UIColor(red: 224 / 255.0, green: 96 / 255.0, blue: 85 / 255.0, alpha: 1),
-        UIColor(red: 79 / 255.0, green: 195 / 255.0, blue: 247 / 255.0, alpha: 1),
-        ]
-    fileprivate lazy var appItems: [ItemData] = {
+    private lazy var datas: [[ItemData]] = {
+        var datas = [[ItemData]]()
+        datas.append([ItemData]())
+        datas.append([ItemData]())
         let build = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
-        return [
+        datas.append([
+            ItemData(
+                name: "wiki".localized,
+                image: UIImage(named: "wiki")!.withRenderingMode(.alwaysTemplate),
+                imageColor: PRIMARY_COLOR,
+                actionURL: URL(string: "\(ROOT_URL)/wiki")!
+            )
+        ])
+        
+        datas.append([
             ItemData(
                 name: "copyright".localized,
                 image: UIImage(named: "copyright")!.withRenderingMode(.alwaysTemplate),
-                imageColor: UIColor(red: 246 / 255.0, green: 191 / 255.0, blue: 50 / 255.0, alpha: 1),
+                imageColor: PRIMARY_COLOR,
                 actionURL: URL(string: COPYRIGHT_URL)!
             ),
             ItemData(
                 name: "v\(APP_VERSION) (build \(build))",
                 image: UIImage(named: "versions")!.withRenderingMode(.alwaysTemplate),
-                imageColor: UIColor(red: 87 / 255.0, green: 187 / 255.0, blue: 138 / 255.0, alpha: 1),
+                imageColor: PRIMARY_COLOR,
                 actionURL: nil
             )
-        ]
+        ])
+        
+        return datas
     }()
     
     override func viewDidLoad() {
@@ -57,7 +64,7 @@ class SideMenuViewController: UITableViewController {
         
         title = "TesterHome"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLoginState), name: NSNotification.Name(NOTICE_USER_CHANGED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLoginState), name: NSNotification.Name.userChanged, object: nil)
         updateLoginState()
         
         tableView.backgroundColor = SIDEMENU_BG_COLOR
@@ -67,20 +74,16 @@ class SideMenuViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return datas.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return userItems.count
-        case 1: return appItems.count
-        default: return 0
-        }
+        return datas[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let itemData = indexPath.section == 0 ? userItems[indexPath.row] : appItems[indexPath.row]
+        let itemData = datas[indexPath.section][indexPath.row]
         cell.textLabel!.text = itemData.name
         cell.imageView?.image = itemData.image
         cell.imageView?.tintColor = itemData.imageColor
@@ -89,7 +92,7 @@ class SideMenuViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let itemData = indexPath.section == 0 ? userItems[indexPath.row] : appItems[indexPath.row]
+        let itemData = datas[indexPath.section][indexPath.row]
         if let url = itemData.actionURL {
             action(forURL: url)
         }
@@ -98,34 +101,49 @@ class SideMenuViewController: UITableViewController {
 }
 
 // MARK: - action
-
+@objc
 extension SideMenuViewController {
     
     func updateLoginState() {
+        let kUserSection = 1
         if let user = OAuth2.shared.currentUser , OAuth2.shared.isLogined {
-            userItems = [
+            datas[0] = [
+                ItemData(
+                    name: "title new topic".localized,
+                    image: UIImage(named: "new")!.withRenderingMode(.alwaysTemplate),
+                    imageColor: PRIMARY_COLOR,
+                    actionURL: URL(string: "\(ROOT_URL)/topics/new")!
+                )
+            ]
+            datas[kUserSection] = [
                 ItemData(
                     name: user.login,
                     image: UIImage(named: "profile")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[0],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/\(user.login)")!
                 ),
                 ItemData(
                     name: "edit account".localized,
                     image: UIImage(named: "edit-user")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[1],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/account/edit")!
+                ),
+                ItemData(
+                    name: "favorites".localized,
+                    image: UIImage(named: "favorites")!.withRenderingMode(.alwaysTemplate),
+                    imageColor: PRIMARY_COLOR,
+                    actionURL: URL(string: "\(ROOT_URL)/topics/favorites")!
                 ),
                 ItemData(
                     name: "notes".localized,
                     image: UIImage(named: "notes")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[2],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/notes")!
                 ),
                 ItemData(
                     name: "sign out".localized,
                     image: UIImage(named: "logout")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[3],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/logout")!
                 )
             ]
@@ -138,26 +156,27 @@ extension SideMenuViewController {
                     return
                 }
                 let avatarImage = UIImage(cgImage: cgImage, scale: 2, orientation: image.imageOrientation)
-                let oldData = self.userItems[0]
+                let oldData = self.datas[kUserSection][0]
                 let newData = ItemData(name: oldData.name, image: avatarImage, imageColor: oldData.imageColor, actionURL: oldData.actionURL)
-                self.userItems[0] = newData
+                self.datas[kUserSection][0] = newData
                 self.tableView.reloadData()
             })
         } else {
-            userItems = [
+            datas[0] = [
                 ItemData(
                     name: "sign in".localized,
                     image: UIImage(named: "login")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[0],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/account/sign_in")!
                 ),
                 ItemData(
                     name: "sign up".localized,
                     image: UIImage(named: "profile")!.withRenderingMode(.alwaysTemplate),
-                    imageColor: userImageColors[1],
+                    imageColor: PRIMARY_COLOR,
                     actionURL: URL(string: "\(ROOT_URL)/account/sign_up")!
                 )
             ]
+            datas[1] = []
         }
         
         self.tableView.reloadData()
@@ -166,7 +185,7 @@ extension SideMenuViewController {
 }
 
 // MARK: - private
-
+@objc
 extension SideMenuViewController {
     
     fileprivate func action(forURL url: URL) {
@@ -177,7 +196,11 @@ extension SideMenuViewController {
             UIApplication.shared.openURL(url)
         } else if router.match(URL(string: url.path)!) == nil {
             dismiss(animated: true, completion: {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: NOTICE_MENU_CLICKED), object: self, userInfo: [NOTICE_MENU_CLICKED_PATH: url.path])
+                if let host = url.host, host != URL(string: ROOT_URL)!.host! {
+                    TurbolinksSessionLib.shared.safariOpen(url)
+                } else {
+                    TurbolinksSessionLib.shared.action(.Advance, path: url.path)
+                }
             })
         }
     }

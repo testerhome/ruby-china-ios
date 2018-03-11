@@ -34,6 +34,9 @@ class TurbolinksSessionLib: NSObject {
         router.bind("/topics/new") { req in
             self.presentEditTopicController(req.route.route)
         }
+        router.bind("/topics/favorites") { req in
+            self.pushFavoritesController()
+        }
         router.bind("/topics/node:id") { req in
             if let idString = req.param("id"), let nodeID = Int(idString) {
                 self.pushNodeTopicsController(nodeID)
@@ -60,7 +63,7 @@ class TurbolinksSessionLib: NSObject {
             if req.url.fragment != nil {
                 idString = idString.replacingOccurrences(of: "%23", with: "#")
             }
-            let idStringList = idString.characters.split { $0 == "#" }.map(String.init)
+            let idStringList = idString.split { $0 == "#" }.map(String.init)
             if
                 idStringList.count > 0,
                 let id = Int(idStringList[0]),
@@ -209,6 +212,15 @@ class TurbolinksSessionLib: NSObject {
         let controller = NodeTopicsViewController(nodeID: nodeID)
         UIApplication.currentViewController()?.navigationController?.pushViewController(controller, animated: true)
     }
+    
+    fileprivate func pushFavoritesController() {
+        if (!OAuth2.shared.isLogined) {
+            presentLoginController()
+            return
+        }
+        let controller = FavoriteTopicsViewController()
+        UIApplication.currentViewController()?.navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension TurbolinksSessionLib: SessionDelegate {
@@ -232,7 +244,7 @@ extension TurbolinksSessionLib: SessionDelegate {
             let statusCode = error.userInfo["statusCode"] as! Int
             switch statusCode {
             case 401:
-                if OAuth2.shared.isLogined {
+                if !OAuth2.shared.isLogined {
                     presentLoginController()
                 }
             case 404:

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AMScrollingNavbar
 
 class RootTopicsViewController: TopicsViewController {
     
@@ -17,13 +18,34 @@ class RootTopicsViewController: TopicsViewController {
     fileprivate var disappearTime: Date?
     fileprivate var filterData = TopicsFilterViewController.NodeData.listType(.last_actived)
     fileprivate var listType = TopicsService.ListType.popular
+    fileprivate lazy var badgeLabel: UILabel = {
+        let view = UILabel(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
+        view.clipsToBounds = true
+        view.layer.cornerRadius = view.bounds.height / 2.0
+        view.backgroundColor = UIColor.red
+        view.textColor = UIColor.white
+        view.textAlignment = .center
+        view.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        view.isHidden = true
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let notificationsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 44))
+        notificationsButton.setImage(UIImage(named: "notifications")?.imageWithColor(PRIMARY_COLOR), for: UIControlState())
+        notificationsButton.addTarget(self, action: #selector(notificationsAction), for: .touchUpInside)
+        let notificationsView = UIView(frame: notificationsButton.frame)
+        notificationsView.addSubview(notificationsButton)
+        notificationsView.addSubview(badgeLabel)
+        badgeLabel.center.x = notificationsButton.frame.maxX - 3
+        badgeLabel.frame.origin.y = notificationsButton.center.y - badgeLabel.frame.height
+        let notificationsItem = UIBarButtonItem(customView: notificationsView)
+        
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem.fixNavigationSpacer(),
-            UIBarButtonItem.narrowButtonItem(image: UIImage(named: "new"), target: self, action: #selector(newTopicAction)),
+            notificationsItem,
             UIBarButtonItem.narrowButtonItem(image: UIImage(named: "search"), target: self, action: #selector(searchAction)),
             UIBarButtonItem.narrowButtonItem(image: UIImage(named: "filter"), target: self, action: #selector(filterAction)),
         ]
@@ -39,11 +61,13 @@ class RootTopicsViewController: TopicsViewController {
         
         resetTitle(filterData)
         reloadTopics(filterData)
+        refreshBadgeLabel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkRefreshContent()
+        OAuth2.shared.refreshUnreadNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -57,7 +81,7 @@ class RootTopicsViewController: TopicsViewController {
 }
 
 // MARK: - action methods
-
+@objc 
 extension RootTopicsViewController {
     
     func filterAction() {
@@ -80,12 +104,16 @@ extension RootTopicsViewController {
             sender.dismiss(animated: true, completion: nil)
         }
         
-        let nc = UINavigationController(rootViewController: vc)
+        let nc = ScrollingNavigationController(rootViewController: vc)
         self.present(nc, animated: true, completion: nil)
     }
     
-    func newTopicAction() {
-        TurbolinksSessionLib.shared.action(.Replace, path: "/topics/new")
+    func notificationsAction() {
+        if !OAuth2.shared.isLogined {
+            SignInViewController.show()
+        } else {
+            navigationController?.pushViewController(NotificationsViewController(path: "/notifications"), animated: true)
+        }
     }
     
 }
@@ -100,6 +128,16 @@ extension RootTopicsViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { [weak self](notification) in
             self?.resetDisappearTime()
         }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.userUnreadNotificationChanged, object: nil, queue: nil) { [weak self](notification) in
+            UIApplication.shared.applicationIconBadgeNumber = OAuth2.shared.unreadNotificationCount
+            self?.refreshBadgeLabel()
+        }
+    }
+    
+    fileprivate func refreshBadgeLabel() {
+        let count = OAuth2.shared.unreadNotificationCount
+        badgeLabel.isHidden = count <= 0
+        badgeLabel.text = "\(min(99, count))"
     }
     
     fileprivate func resetTitle(_ filterData: TopicsFilterViewController.NodeData) {

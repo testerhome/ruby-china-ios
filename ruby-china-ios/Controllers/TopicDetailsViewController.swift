@@ -14,19 +14,57 @@ class TopicDetailsViewController: WebViewController {
     fileprivate var followButton: UIButton!
     fileprivate var likeButton: UIButton!
     fileprivate var favorited: Bool = false
-    
+    fileprivate var interactivePopDelegate: UIGestureRecognizerDelegate?
     
     convenience init(topicID: Int, topicPath: String? = nil) {
         self.init(path: topicPath ?? "/topics/\(topicID)")
         self.topicID = topicID
+
+        navigationController?.title = "阅读话题"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addMoreButton()
-        addTopicActionButton()
+        setToolbars()
         loadTopicActionButtonStatus()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setToolbarHidden(false, animated: animated)
+        interactivePopDelegate = navigationController?.interactivePopGestureRecognizer?.delegate
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.setToolbarHidden(true, animated: animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = interactivePopDelegate
+    }
+    
+    func setToolbars() {
+        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        let statusBarColor = UIColor.white
+        statusBarView.backgroundColor = statusBarColor
+        view.addSubview(statusBarView)
+
+        let (backItem, _) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "back"), target: self, action: #selector(backAction))
+        let (moreItem, _) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "dropdown"), target: self, action: #selector(moreAction))
+        
+        let (followItem, followBtn) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "invisible"), target: self, action: #selector(topicAction(_:)))
+        followButton = followBtn
+        
+        let (likeItem, likeBtn) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "like"), target: self, action: #selector(topicAction(_:)))
+        likeBtn.frame.size.width = 50
+        likeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        likeBtn.setTitleColor(PRIMARY_COLOR, for: UIControlState())
+        likeButton = likeBtn
+        
+        let fixedBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        toolbarItems = [backItem, fixedBar, likeItem, fixedBar, followItem, moreItem]
     }
     
     override func reloadByLoginStatusChanged() {
@@ -35,11 +73,10 @@ class TopicDetailsViewController: WebViewController {
             loadTopicActionButtonStatus()
         }
     }
-    
 }
 
 // MARK: - action
-
+@objc
 extension TopicDetailsViewController {
     
     override func moreAction() {
@@ -107,14 +144,14 @@ extension TopicDetailsViewController {
             TopicsService.unfavorite(topicID) { [weak self] (response) in
                 if let code = response.response?.statusCode , code == 200 {
                     self?.favorited = false
-                    NotificationCenter.default.post(name: NSNotification.Name(NOTICE_FAVORITE_CHANGED), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name.userFavoriteChanged, object: nil)
                 }
             }
         } else {
             TopicsService.favorite(topicID) { [weak self] (response) in
                 if let code = response.response?.statusCode , code == 200 {
                     self?.favorited = true
-                    NotificationCenter.default.post(name: NSNotification.Name(NOTICE_FAVORITE_CHANGED), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name.userFavoriteChanged, object: nil)
                 }
             }
         }
@@ -128,22 +165,6 @@ private let uncheckedTag = 0;
 private let checkedTag = 1;
 
 extension TopicDetailsViewController {
-    
-    fileprivate func addTopicActionButton() {
-        var rightBarButtonItems = navigationItem.rightBarButtonItems ?? [UIBarButtonItem.fixNavigationSpacer()]
-        
-        let (followItem, followBtn) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "invisible"), target: self, action: #selector(topicAction(_:)))
-        followButton = followBtn
-        
-        let (likeItem, likeBtn) = UIBarButtonItem.narrowButtonItem2(image: UIImage(named: "like"), target: self, action: #selector(topicAction(_:)))
-        likeBtn.frame.size.width = 50
-        likeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        likeBtn.setTitleColor(NAVBAR_TINT_COLOR, for: UIControlState())
-        likeButton = likeBtn
-        
-        rightBarButtonItems += [followItem, likeItem]
-        navigationItem.rightBarButtonItems = rightBarButtonItems
-    }
     
     fileprivate func loadTopicActionButtonStatus() {
         guard let id = topicID , OAuth2.shared.isLogined else {
@@ -181,7 +202,7 @@ extension TopicDetailsViewController {
         
         button.tag = checked ? checkedTag : uncheckedTag
         let image = UIImage(named: checked ? checkedImageNamed : uncheckedImageNamed)
-        button.setImage(image?.imageWithColor(NAVBAR_TINT_COLOR), for: UIControlState())
+        button.setImage(image?.imageWithColor(PRIMARY_COLOR), for: UIControlState())
         button.setTitle(title, for: UIControlState())
         // 选中动画
         if let imageView = button.imageView , checked {

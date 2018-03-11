@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AMScrollingNavbar
 
 class TopicsViewController: UITableViewController {
 
@@ -21,15 +22,34 @@ class TopicsViewController: UITableViewController {
         fatalError("loadTopics(offset:callback:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let navigationController = navigationController as? ScrollingNavigationController {
+            navigationController.followScrollView(tableView, delay: 50.0)
+            navigationController.scrollingNavbarDelegate = self
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let navigationController = navigationController as? ScrollingNavigationController {
+            navigationController.stopFollowingScrollView()
+            scrollingNavigationController(navigationController, didChangeState: .expanded)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         clearsSelectionOnViewWillAppear = true
         
         tableView.register(TopicCell.self, forCellReuseIdentifier: kCellReuseIdentifier)
-        tableView.separatorColor = UIColor(white: 0.94, alpha: 1)
+        // color: #F0F0F0
+        tableView.separatorColor = UIColor.init(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         tableView.tableFooterView = UIView()
-        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.separatorInset = UIEdgeInsetsMake(0, 4, 0, 4)
         tableView.estimatedRowHeight = 56
         tableView.headerWithRefreshingBlock { [weak self] in
             guard let `self` = self else {
@@ -85,6 +105,22 @@ class TopicsViewController: UITableViewController {
     
 }
 
+extension TopicsViewController: ScrollingNavigationControllerDelegate {
+    
+    func scrollingNavigationController(_ controller: ScrollingNavigationController, didChangeState state: NavigationBarState) {
+        switch state {
+        case .collapsed:
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationController?.navigationBar.shadowImage = UIImage()
+        case .expanded:
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            navigationController?.navigationBar.shadowImage = nil
+        case .scrolling: break
+        }
+    }
+    
+}
+
 // MARK: - public
 
 extension TopicsViewController {
@@ -99,10 +135,10 @@ extension TopicsViewController {
             }
             self.isLoading = false
             
-            if (self.tableView.mj_header.isRefreshing()) {
+            if (self.tableView.mj_header.isRefreshing) {
                 self.tableView.mj_header.endRefreshing()
             }
-            if (self.tableView.mj_footer.isRefreshing()) {
+            if (self.tableView.mj_footer.isRefreshing) {
                 self.tableView.mj_footer.endRefreshing()
             }
             self.tableView.mj_footer.isHidden = result == nil ? true : (result!.count < limit)
@@ -145,7 +181,7 @@ extension TopicsViewController {
 }
 
 // MARK: - action
-
+@objc
 extension TopicsViewController {
     
     func errorViewRetryAction() {

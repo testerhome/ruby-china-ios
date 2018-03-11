@@ -76,11 +76,11 @@ class TopicsFilterViewController: UIViewController {
     
     fileprivate lazy var cellSelectedImage: UIImage? = {
         let cellSize = (self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-        return UIImage.roundedCorner(imageSize: cellSize, radius: 5, backgroundColor: NAVBAR_BG_COLOR, borderWidth: 0, borderColor: NAVBAR_BG_COLOR)
+        return UIImage.roundedCorner(imageSize: cellSize, radius: 5, backgroundColor: PRIMARY_COLOR, borderWidth: 0, borderColor: PRIMARY_COLOR)
     }()
     fileprivate lazy var cellNormalImage: UIImage? = {
         let cellSize = (self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-        return UIImage.roundedCorner(imageSize: cellSize, radius: 5, backgroundColor: UIColor.clear, borderWidth: 1, borderColor: SEGMENT_BG_COLOR)
+        return UIImage.roundedCorner(imageSize: cellSize, radius: 5, backgroundColor: UIColor.clear, borderWidth: 1, borderColor: PRIMARY_COLOR)
     }()
     
     override func viewDidLoad() {
@@ -90,7 +90,7 @@ class TopicsFilterViewController: UIViewController {
         view.addSubview(collectionView)
         closeButton.snp.makeConstraints { (make) in
             make.left.top.right.equalToSuperview()
-            make.height.equalTo(64)
+            make.height.equalTo(self.view.frame.height == 812 ? 88 : 64)
         }
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(closeButton.snp.bottom)
@@ -110,7 +110,7 @@ class TopicsFilterViewController: UIViewController {
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
 
 }
@@ -175,7 +175,7 @@ extension TopicsFilterViewController {
         return vc
     }
     
-    func close() {
+    @objc func close() {
         UIView.animate(withDuration: 0.3, animations: {
             self.parentWindow!.alpha = 0
             }, completion: { _ in

@@ -18,7 +18,7 @@ class TopicsFilterNodeCell: UICollectionViewCell {
     fileprivate lazy var label: UILabel = {
         let view = UILabel()
         view.textAlignment = .center
-        view.font = UIFont.systemFont(ofSize: 12)
+        view.font = UIFont.systemFont(ofSize: 14)
         view.adjustsFontSizeToFitWidth = true
         return view
     }()
@@ -36,7 +36,7 @@ class TopicsFilterNodeCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            label.textColor = isSelected ? NAVBAR_TINT_COLOR : SEGMENT_BG_COLOR
+            label.textColor = isSelected ? NAVBAR_TINT_COLOR : PRIMARY_COLOR
             imageView.image = isSelected ? selectedImage : normalImage
         }
     }

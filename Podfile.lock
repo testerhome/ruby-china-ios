@@ -1,28 +1,30 @@
 PODS:
-  - Alamofire (4.3.0)
-  - Bugly (2.4.6)
-  - FontAwesome.swift (1.0.0)
-  - Heimdallr (3.5.1):
-    - Heimdallr/Core (= 3.5.1)
-  - Heimdallr/Core (3.5.1):
+  - Alamofire (4.7.0)
+  - AMScrollingNavbar (4.2.4)
+  - Bugly (2.5.0)
+  - FontAwesome.swift (1.3.2)
+  - Heimdallr (3.6.1):
+    - Heimdallr/Core (= 3.6.1)
+  - Heimdallr/Core (3.6.1):
     - Result (~> 3.0)
-  - Kingfisher (3.6.0)
-  - MBProgressHUD (1.0.0)
-  - MJRefresh (3.1.12)
-  - Result (3.2.1)
+  - Kingfisher (4.6.3)
+  - MBProgressHUD (1.1.0)
+  - MJRefresh (3.1.15.3)
+  - Result (3.2.4)
   - Router (1.0.0)
-  - SideMenu (2.3.0)
-  - SKPhotoBrowser (4.0.1)
-  - SnapKit (3.1.2)
-  - SwiftyJSON (3.1.4)
-  - Turbolinks (2.0.0)
+  - SideMenu (3.1.5)
+  - SKPhotoBrowser (5.0.5)
+  - SnapKit (4.0.0)
+  - SwiftyJSON (4.0.0)
+  - Turbolinks (3.0.0)
   - YYKeyboardManager (1.0.1)
 
 DEPENDENCIES:
   - Alamofire
+  - AMScrollingNavbar
   - Bugly
   - FontAwesome.swift
-  - Heimdallr (from `https://github.com/marcelofabri/Heimdallr.swift.git`, branch `swift-3.0`)
+  - Heimdallr
   - Kingfisher
   - MBProgressHUD
   - MJRefresh
@@ -31,47 +33,41 @@ DEPENDENCIES:
   - SKPhotoBrowser
   - SnapKit
   - SwiftyJSON
-  - Turbolinks (from `https://github.com/turbolinks/turbolinks-ios.git`, branch `swift-3.0`)
+  - Turbolinks (from `https://github.com/turbolinks/turbolinks-ios.git`)
   - YYKeyboardManager
 
 EXTERNAL SOURCES:
-  Heimdallr:
-    :branch: swift-3.0
-    :git: https://github.com/marcelofabri/Heimdallr.swift.git
   Router:
     :git: https://github.com/klaus01/Router.git
   Turbolinks:
-    :branch: swift-3.0
     :git: https://github.com/turbolinks/turbolinks-ios.git
 
 CHECKOUT OPTIONS:
-  Heimdallr:
-    :commit: 213140048f6341516fcb3a4ae083a7bd83e2301b
-    :git: https://github.com/marcelofabri/Heimdallr.swift.git
   Router:
-    :commit: 409ac172500c0a0349beaa59f39243a5e0374fe6
+    :commit: f4b20dae4332f1dd454465457617904df4b07572
     :git: https://github.com/klaus01/Router.git
   Turbolinks:
-    :commit: 1d6e267dd6a60faed8e51d2cbf893bd7d7851538
+    :commit: ac09406eefedf37fc96ecab56bb05879289e0858
     :git: https://github.com/turbolinks/turbolinks-ios.git
 
 SPEC CHECKSUMS:
-  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
-  Bugly: 7756e72c59387b0d490f46e83ab458ae94ee7fba
-  FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
-  Heimdallr: 8881bb8ef21dcd347fd1c8b783ae0dafe68a4297
-  Kingfisher: 300035f9a40634dc9b452d946c9f22250688fecd
-  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
+  AMScrollingNavbar: e5676bc9caae93d1a3dd5a708d7d9b0cf2fd89d3
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
+  Heimdallr: d2a8b1dc3ecc7ad249c9ffd20c990e2248fcd599
+  Kingfisher: 98e6d5b5e807645743e8ed5ececd25d688d38452
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   Router: 6088d6d321e097070d5ea4bd792cb015dfa0fbb4
-  SideMenu: 43d092cf615cf472f105c5b9867a21beff9fc269
-  SKPhotoBrowser: 3a7c6fc02aa1620ab17253a47a49fafda46536e8
-  SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  Turbolinks: 3f60819d36350d872b436dc22497a1050c144b95
+  SideMenu: 47dbf9e4d878062d8994aed43f6e4bf6c1fea30b
+  SKPhotoBrowser: 5969c3813727f11fe37bea74a40425cafcb32f61
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  Turbolinks: 4e3a5ce8132e96019236ca7f8f274a0034de2a39
   YYKeyboardManager: ff53d2e80d1808567a7f004028bd200d9469a89f
 
-PODFILE CHECKSUM: c07e07ed85df6575874ecde032561ebab85cc588
+PODFILE CHECKSUM: 936c2274790e5e5b519d49789015eb247e93aba6
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.4.0

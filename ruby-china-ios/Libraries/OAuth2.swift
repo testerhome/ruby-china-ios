@@ -26,7 +26,15 @@ class OAuth2 {
     
     fileprivate(set) var currentUser: User? {
         didSet {
-            NotificationCenter.default.post(name: NSNotification.Name(NOTICE_USER_CHANGED), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name.userChanged, object: nil)
+        }
+    }
+    
+    fileprivate(set) var unreadNotificationCount: Int = 0 {
+        didSet {
+            if unreadNotificationCount != oldValue {
+                NotificationCenter.default.post(name: NSNotification.Name.userUnreadNotificationChanged, object: nil)
+            }
         }
     }
     
@@ -43,8 +51,12 @@ class OAuth2 {
         accessToken = accessTokenStore.retrieveAccessToken()?.accessToken
         if (accessToken != nil) {
             if let userData = UserDefaults.standard.data(forKey: "loginUserJSON") {
-                let jsonObject = JSON(data: userData)
-                currentUser = User(json: jsonObject)
+                do {
+                    let jsonObject = try JSON(data: userData)
+                    currentUser = User(json: jsonObject)
+                    refreshUnreadNotifications()
+                } catch {
+                }
             }
             
             reloadCurrentUser()
@@ -112,14 +124,16 @@ class OAuth2 {
         }
     }
     
-    func refreshUnreadNotifications(_ callback: @escaping ((Int) -> Void)) {
-        APIRequest.shared.get("/api/v3/notifications/unread_count", parameters: nil) { (response, result) in
-            if let result = result , !result.isEmpty {
+    func refreshUnreadNotifications() {
+        if !isLogined {
+            unreadNotificationCount = 0
+            return
+        }
+        APIRequest.shared.get("/api/v3/notifications/unread_count", parameters: nil) { [weak self] (response, result) in
+            if let result = result, !result.isEmpty {
                 let unreadCount = result["count"].intValue
                 print("Unread notification count", unreadCount)
-                DispatchQueue.main.async {
-                    callback(unreadCount)
-                }
+                self?.unreadNotificationCount = unreadCount
             }
         }
     }
@@ -132,9 +146,10 @@ class OAuth2 {
         heimdallr.clearAccessToken()
         accessToken = nil
         currentUser = nil
+        unreadNotificationCount = 0
         UserDefaults.standard.removeObject(forKey: "loginUserJSON")
         UserDefaults.standard.synchronize()
         
-        NotificationCenter.default.post(name: NSNotification.Name(NOTICE_SIGNOUT), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.userSignout, object: nil)
     }
 }
