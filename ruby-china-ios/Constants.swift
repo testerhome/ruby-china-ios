@@ -17,14 +17,16 @@ let APP_VERSION = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! 
 let USER_AGENT = "turbolinks-app, testerhome, official, iOS, version:" + APP_VERSION
 
 // Blue Theme
+let BLACK_COLOR = UIColor(red: 0.04, green: 0.02, blue: 0.02, alpha: 1.0)
+let PRIMARY_COLOR = UIColor(red:0.25, green:0.32, blue:0.71, alpha:1.0)
 //let NAVBAR_BG_COLOR = UIColor(red:0.25, green:0.32, blue:0.71, alpha:1.0)
 //let NAVBAR_BORDER_COLOR = UIColor(red:0.25, green:0.32, blue:0.61, alpha:1.0)
 //let NAVBAR_TINT_COLOR = UIColor(red:1.00, green:1.00, blue:0.93, alpha:1.0)
 //let TABBAR_BG_COLOR = UIColor(red:0.88, green:0.96, blue:1.00, alpha:1.0)
 
 // Red Theme
-let BLACK_COLOR = UIColor(red: 0.04, green: 0.02, blue: 0.02, alpha: 1.0)
-let PRIMARY_COLOR = UIColor(red: 0.91, green: 0.33, blue: 0.23, alpha: 1.0)
+//let BLACK_COLOR = UIColor(red: 0.04, green: 0.02, blue: 0.02, alpha: 1.0)
+//let PRIMARY_COLOR = UIColor(red: 0.91, green: 0.33, blue: 0.23, alpha: 1.0)
 //let NAVBAR_BG_COLOR = PRIMARY_COLOR
 //let SIDEMENU_NAVBAR_BG_COLOR = UIColor(red: 0.74, green: 0.24, blue: 0.13, alpha: 1.0)
 //let SIDEMENU_BG_COLOR = UIColor(red: 0.95, green: 0.94, blue: 0.94, alpha: 1.0)
