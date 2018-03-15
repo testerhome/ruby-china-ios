@@ -129,7 +129,6 @@ extension RootTopicsViewController {
             self?.resetDisappearTime()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name.userUnreadNotificationChanged, object: nil, queue: nil) { [weak self](notification) in
-            UIApplication.shared.applicationIconBadgeNumber = OAuth2.shared.unreadNotificationCount
             self?.refreshBadgeLabel()
         }
     }

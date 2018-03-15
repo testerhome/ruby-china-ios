@@ -17,4 +17,7 @@ target 'ruby-china-ios' do
   pod 'YYKeyboardManager'
   pod 'Bugly'
   pod 'AMScrollingNavbar'
+  pod 'SwipeTransition'
+  pod 'SwipeTransitionAutoSwipeBack'
+  pod 'XCGLogger'
 end
